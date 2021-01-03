@@ -1,9 +1,9 @@
 import pygame
 
 level_1_design = """XX
-  XXXX    N
-      XXXXXXXXXXX
-                  XXXXXX
+ XXXXX   N    XP
+     XXX    XXXXX
+       XXXXXX     XXXXXX
 
               XXXX
 
@@ -12,10 +12,10 @@ level_1_design = """XX
       XXXX
 
           XXXX
-              XXXXXXXX
-
-        XXXXX       XXXX
-      XX    XXXXXXXX
-     X      X
+             XXXXXXXXX
+                 X     X
+        XXXXX  X    XXXX
+      XXX   XXXXXXXXX
+     XX     X
    XXXXXXXXXXXXXXXXXXXXX
 """

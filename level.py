@@ -18,6 +18,7 @@ class Level:
         )
         self.blocks = pygame.sprite.Group()
         self.npcs = pygame.sprite.Group()
+        playerPos = [X_BORDER, Y_BORDER]
         for ycoord, row in enumerate(self.level_design.splitlines()):
             for xcoord, cell in enumerate(row):
                 if cell == "X":
@@ -26,13 +27,15 @@ class Level:
                         Y_BORDER + ycoord * 32,
                     )
                     self.blocks.add(block)
-                # if cell == "N":
-                #     npc = NPC(
-                #         X_BORDER + xcoord * 32,
-                #         Y_BORDER + ycoord * 32,
-                #     )
-                #     self.npcs.add(npc)
-        self.player = Player(self.screen, self.blocks)
+                if cell == "N":
+                    npc = NPC(
+                        X_BORDER + xcoord * 32,
+                        Y_BORDER + ycoord * 32,
+                    )
+                    self.npcs.add(npc)
+                if cell == "P":
+                    playerPos = [X_BORDER + xcoord * 32, Y_BORDER + ycoord * 32]
+        self.player = Player(self.screen, self.blocks, playerPos[0], playerPos[1])
 
     def draw(self):
         self.screen.fill(pygame.Color("white"))
