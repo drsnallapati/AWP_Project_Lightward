@@ -7,6 +7,10 @@ from pygame.locals import (
     K_SPACE,
     RLEACCEL,
     K_RETURN,
+    K_w,
+    K_a,
+    K_d,
+    K_UP,
 )
 from constants import *
 
@@ -35,30 +39,29 @@ class Player(pygame.sprite.Sprite):
         self.is_jumping = False
         self.blocks = blocks
 
-    def jump(
-        self,
-    ):
-        pass
-        # vertical height, vertical velocity, acc, decc,horizontal distance, what to do if they push jump again while in the air(double jump), set gravity
-
     def update(self, pressed_keys):
-        if pressed_keys[K_RIGHT]:
+        if pressed_keys[K_RIGHT] or pressed_keys[K_d]:
             self.surf = self.right_looking_surface
-            self.rect.move_ip(5, 0)
+            self.rect.move_ip(2, 0)
             block_hit_list = pygame.sprite.spritecollide(self, self.blocks, False)
             for block in block_hit_list:
                 self.rect.right = block.rect.left
-        if pressed_keys[K_LEFT]:
+        if pressed_keys[K_LEFT] or pressed_keys[K_a]:
             self.surf = self.left_looking_surface
-            self.rect.move_ip(-5, 0)
+            self.rect.move_ip(-2, 0)
             block_hit_list = pygame.sprite.spritecollide(self, self.blocks, False)
             for block in block_hit_list:
                 self.rect.left = block.rect.right
-        if pressed_keys[K_SPACE]:
+        if pressed_keys[K_SPACE] or pressed_keys[K_w] or pressed_keys[K_UP]:
             if self.v_velocity == 0 and self.is_jumping == False:
-                self.v_velocity = -16
+                self.v_velocity = JUMP_VELOCITY
                 self.is_jumping = True
         self.rect.move_ip(0, self.v_velocity)
+        if self.is_jumping == True and self.v_velocity < 0:
+            block_hit_list = pygame.sprite.spritecollide(self, self.blocks, False)
+            for block in block_hit_list:
+                self.rect.top = block.rect.bottom
+                self.v_velocity = 0
         self.v_velocity += GRAVITY
         block_hit_list = pygame.sprite.spritecollide(self, self.blocks, False)
         for block in block_hit_list:

@@ -1,6 +1,5 @@
 # import
 import pygame
-
 from intro import IntroScene
 
 pygame.init()
@@ -13,11 +12,9 @@ from pygame.locals import (
 )
 from constants import *
 
+
 # sets the clock so that you can choose how fast you want to update the game. Also sets a consistent rate
 clock = pygame.time.Clock()
-
-# Constants
-
 
 # set up the game window
 screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])
@@ -44,7 +41,6 @@ while running:
     current_scene.draw()
 
     # render the screen and flip it
-
     pygame.display.flip()
 
     if current_scene.next_scene:

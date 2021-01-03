@@ -1,21 +1,21 @@
 import pygame
 
-level = """
+level_1_design = """XX
+  XXXX    N
+      XXXXXXXXXXX
+                  XXXXXX
 
+              XXXX
 
+           XXXX
 
+      XXXX
 
+          XXXX
+              XXXXXXXX
 
-
-
-
-
-
-
-
-
-      XX
-    XXXX   XXX
-   XXXXX X
-  XXXXXXXXXXXXXXXXXXXXXX
+        XXXXX       XXXX
+      XX    XXXXXXXX
+     X      X
+   XXXXXXXXXXXXXXXXXXXXX
 """

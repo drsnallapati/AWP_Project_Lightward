@@ -39,6 +39,7 @@ class IntroScene:
         # places the text on the screen
         self.screen.blit(self.welcome_text, self.welcome_textRect)
         self.screen.blit(self.instructions_text, self.instructions_textRect)
+
         if self.hovered:
             self.screen.blit(self.play_hover_text, self.play_textRect)
         else:
