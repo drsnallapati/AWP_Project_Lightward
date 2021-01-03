@@ -20,6 +20,7 @@ class LevelOne(Level):
         )
 
     def draw(self):
+
         clip_center = self.player.rect.center
         # clear screen and set clipping region
         self.screen.fill(0)
@@ -29,7 +30,7 @@ class LevelOne(Level):
             self.radius * 2,
             self.radius * 2,
         )
-        self.screen.set_clip(clip_rect)
+        #self.screen.set_clip(clip_rect)
 
         super(LevelOne, self).draw()
 

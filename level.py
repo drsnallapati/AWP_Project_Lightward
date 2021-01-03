@@ -30,7 +30,7 @@ class Level:
                 if cell == "N":
                     npc = NPC(
                         X_BORDER + xcoord * 32,
-                        Y_BORDER + ycoord * 32,
+                        Y_BORDER + ycoord * 32, self.screen
                     )
                     self.npcs.add(npc)
                 if cell == "P":
@@ -46,6 +46,7 @@ class Level:
             self.screen.blit(entity.surf, entity.rect)
         for entity in self.npcs:
             self.screen.blit(entity.surf, entity.rect)
+
 
     def handle_input(self, pressed_keys):
         pressed_keys = pygame.key.get_pressed()
