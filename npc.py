@@ -37,6 +37,7 @@ class NPC(pygame.sprite.Sprite):
         self.active_NPC = False
     def activate(self):
         if self.rect.colliderect(self.player.rect):
+            print("WE")
             self.active_NPC = True
 
     def draw(self):
