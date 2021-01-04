@@ -1,9 +1,10 @@
 import pygame
-
 from player import Player
 from constants import *
 from level_1_design import level_1_design
 from level import Level
+from level_two import LevelTwo
+
 
 
 class LevelOne(Level):
@@ -18,6 +19,10 @@ class LevelOne(Level):
         pygame.draw.circle(
             self.cover_surf, (255, 255, 255), (self.radius, self.radius), self.radius
         )
+        #-- Exit Block
+        self.exit_block = pygame.image.load("exit.png")
+        self.exit_block_rect = self.exit_block.get_rect(topleft=[X_BORDER, Y_BORDER])
+
 
     def draw(self):
         surf = pygame.surface.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -35,6 +40,7 @@ class LevelOne(Level):
         super(LevelOne, self).draw(surf)
 
         # draw transparent circle and update display
+
         surf.blit(self.cover_surf, clip_rect)
         self.screen.blit(surf, (0,0))
         self.draw_after_clipping()
@@ -42,6 +48,12 @@ class LevelOne(Level):
     def get_level_design(self):
         return self.level_design
 
+    def update(self):
+        super().update()
+        if self.player.rect.colliderect(self.exit_block_rect):
+            self.next_scene = LevelTwo
+
     def draw_after_clipping(self):
         for entity in self.npcs:
             entity.draw_after_clipping()
+        self.screen.blit(self.exit_block, self.exit_block_rect)

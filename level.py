@@ -9,17 +9,22 @@ from npc import NPC
 
 class Level:
     def __init__(self, screen):
+        # -- Defining Screen
         self.screen = screen
         self.screen_width = screen.get_width()
         self.screen_height = screen.get_height()
         self.next_scene = None
+
+        # -- Defining the Game surface
         self.game_surf = pygame.Surface(
             (self.screen_width - X_BORDER * 2, self.screen_height - Y_BORDER * 2)
         )
+        # -- Defining blocks, NPCs and impassable sprite groups
         self.blocks = pygame.sprite.Group()
         self.npcs = pygame.sprite.Group()
         self.impassables = pygame.sprite.Group()
         self.player = Player(self.screen, self.impassables)
+        # -- Looping through the level design file and creating the map
         for ycoord, row in enumerate(self.get_level_design().splitlines()):
             for xcoord, cell in enumerate(row):
                 if cell == "X":
@@ -40,12 +45,11 @@ class Level:
                     self.impassables.add(npc)
                 if cell == "P":
                     self.player.rect.topleft = [X_BORDER + xcoord * 32, Y_BORDER + ycoord * 32]
-                if cell == "E":
-                    self.exit()
 
 
-    def draw(self, surf):
-
+    def draw(self, surf=None):
+        if not surf:
+            surf = self.screen
         surf.fill(pygame.Color("white"))
         self.game_surf.fill((0, 0, 0))
         surf.blit(self.game_surf, (X_BORDER, Y_BORDER))
@@ -67,6 +71,3 @@ class Level:
     def get_level_design(self):
         pass
 
-    def exit(self):
-        pass
-        #should not be impassable, should take you to level 2, can be just an image of light, should show up above clip and be there the whole game

@@ -1,8 +1,8 @@
 import pygame
 
-level_1_design = """E        N
- XXXXX        XP
-     XXXXXXXXXXXX
+level_1_design = """E  P     N
+   XXX        X
+XXX  XXXXXXXXXXXX
        XXXXXX     XXXXXX
 
               XXXX
