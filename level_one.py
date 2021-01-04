@@ -5,8 +5,6 @@ from level_1_design import level_1_design
 from level import Level
 from level_two import LevelTwo
 
-
-
 class LevelOne(Level):
     def __init__(self, screen):
         self.level_design = level_1_design
