@@ -18,7 +18,7 @@ from constants import *
 class Player(pygame.sprite.Sprite):
     def __init__(self, screen, blocks):
         super(Player, self).__init__()
-        # self.health = 5
+        # self.health = 6
         # self.healthsurf = pygame.image.load("health.png").convert()
         # self.healthsurf.set_colorkey((0, 0, 0), RLEACCEL)
         self.screen = screen

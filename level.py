@@ -18,7 +18,8 @@ class Level:
         )
         self.blocks = pygame.sprite.Group()
         self.npcs = pygame.sprite.Group()
-        self.player = Player(self.screen, self.blocks)
+        self.impassables = pygame.sprite.Group()
+        self.player = Player(self.screen, self.impassables)
         for ycoord, row in enumerate(self.get_level_design().splitlines()):
             for xcoord, cell in enumerate(row):
                 if cell == "X":
@@ -27,6 +28,7 @@ class Level:
                         Y_BORDER + ycoord * 32,
                     )
                     self.blocks.add(block)
+                    self.impassables.add(block)
                 if cell == "N":
                     npc = NPC(
                         X_BORDER + xcoord * 32,
@@ -35,10 +37,15 @@ class Level:
                         self.player
                     )
                     self.npcs.add(npc)
+                    self.impassables.add(npc)
                 if cell == "P":
                     self.player.rect.topleft = [X_BORDER + xcoord * 32, Y_BORDER + ycoord * 32]
+                if cell == "E":
+                    self.exit()
+
 
     def draw(self, surf):
+
         surf.fill(pygame.Color("white"))
         self.game_surf.fill((0, 0, 0))
         surf.blit(self.game_surf, (X_BORDER, Y_BORDER))
@@ -59,3 +66,7 @@ class Level:
 
     def get_level_design(self):
         pass
+
+    def exit(self):
+        pass
+        #should not be impassable, should take you to level 2, can be just an image of light, should show up above clip and be there the whole game

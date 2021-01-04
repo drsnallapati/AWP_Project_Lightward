@@ -39,9 +39,14 @@ class NPC(pygame.sprite.Sprite):
         )
         self.active_NPC = False
         self.show_dialogue = False
+        self.dialogue_activation_rect = self.rect.copy()
+        #making the dialogue show up a little bit before you get to the enemy
+        self.dialogue_activation_rect.width *= 2
+        self.dialogue_activation_rect.left -= self.surf.get_width()/2
 
     def update(self):
-        if self.rect.colliderect(self.player.rect) and self.active_NPC == False:
+
+        if self.dialogue_activation_rect.colliderect(self.player.rect) and self.active_NPC == False:
             self.active_NPC = True
             self.show_dialogue = True
             self.start_ticks = pygame.time.get_ticks() #starter tick
@@ -55,6 +60,8 @@ class NPC(pygame.sprite.Sprite):
             if self.show_dialogue == True:
                 self.screen.blit(self.dialogue1_text,self.dialogue1_textRect)
                 self.screen.blit(self.dialogue2_text,self.dialogue2_textRect)
+                self.screen.blit(self.surf,self.rect)
+
 
 
 # ----TODO FINAL BOSS FIGHT -----
