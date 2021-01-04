@@ -38,6 +38,7 @@ while running:
 
     # render the correct scene
     current_scene.handle_input(events)
+    current_scene.update()
     current_scene.draw()
 
     # render the screen and flip it

@@ -58,3 +58,6 @@ class IntroScene:
             if event.type == MOUSEBUTTONUP:
                 if self.hovered:
                     self.next_scene = LevelOne
+
+    def update(self):
+        pass

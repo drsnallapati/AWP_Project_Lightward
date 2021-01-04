@@ -15,9 +15,10 @@ from pygame.locals import (
 from constants import *
 
 class NPC(pygame.sprite.Sprite):
-    def __init__(self, x, y,screen):
+    def __init__(self, x, y, screen, player):
         super(NPC, self).__init__()
         self.screen = screen
+        self.player = player
         self.screen_width = screen.get_width()
         self.screen_height = screen.get_height()
         self.level_one_NPC = pygame.image.load("threeformsPJ2x.png").convert()
@@ -28,21 +29,25 @@ class NPC(pygame.sprite.Sprite):
         self.rect = self.level_one_NPC_surface.get_rect(topleft=[x, y])
         # --- dialogue box ---
         # Create surface to draw dialog on to
-        self.dialogBoxSurface = pygame.surface.Surface([128, 128])
-        self.font = pygame.font.SysFont("monospace", 12)
-        self.dialogue_text = self.font.render("Ah! I see you were able to find your way. Let's see if you've got what it takes!", True, pygame.Color("black"), pygame.Color("white"))
-        self.dialogue_textRect = self.dialogue_text.get_rect(
-            center=[self.screen_width / 2, (self.screen_height - 500) / 2]
+        self.font = pygame.font.SysFont("monospace", 20)
+        self.dialogue1_text = self.font.render("Ah! I see you were able to find your way!", True, pygame.Color("white"), pygame.Color("black"))
+        self.dialogue1_textRect = self.dialogue1_text.get_rect(
+            center=[self.screen_width / 2, (self.screen_height) / 2]
+        )
+        self.dialogue2_text = self.font.render("Let's see if you've got what it takes!", True, pygame.Color("white"), pygame.Color("black"))
+        self.dialogue2_textRect = self.dialogue2_text.get_rect(
+            center=[self.screen_width / 2, ((self.screen_height/2) + (self.dialogue1_text.get_height()+14))]
         )
         self.active_NPC = False
-    def activate(self):
+
+    def update(self):
         if self.rect.colliderect(self.player.rect):
-            print("WE")
             self.active_NPC = True
 
-    def draw(self):
+    def draw_after_clipping(self):
             if self.active_NPC == True:
-                self.screen.blit(self.dialogue_text,self.dialogue_textRect)
+                self.screen.blit(self.dialogue1_text,self.dialogue1_textRect)
+                self.screen.blit(self.dialogue2_text,self.dialogue2_textRect)
 
 # when you jump down from the block, it should trigger a dialogue box
 # Dialogue box whole text at once and pressing enter key moves the dialogue along

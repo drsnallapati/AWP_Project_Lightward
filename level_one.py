@@ -20,19 +20,28 @@ class LevelOne(Level):
         )
 
     def draw(self):
-
+        surf = pygame.surface.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
         clip_center = self.player.rect.center
         # clear screen and set clipping region
-        self.screen.fill(0)
+        surf.fill(0)
         clip_rect = pygame.Rect(
             clip_center[0] - self.radius,
             clip_center[1] - self.radius,
             self.radius * 2,
             self.radius * 2,
         )
-        #self.screen.set_clip(clip_rect)
+        surf.set_clip(clip_rect)
 
-        super(LevelOne, self).draw()
+        super(LevelOne, self).draw(surf)
 
         # draw transparent circle and update display
-        self.screen.blit(self.cover_surf, clip_rect)
+        surf.blit(self.cover_surf, clip_rect)
+        self.screen.blit(surf, (0,0))
+        self.draw_after_clipping()
+
+    def get_level_design(self):
+        return self.level_design
+
+    def draw_after_clipping(self):
+        for entity in self.npcs:
+            entity.draw_after_clipping()

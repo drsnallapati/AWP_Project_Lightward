@@ -16,7 +16,7 @@ from constants import *
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, screen, blocks, x, y):
+    def __init__(self, screen, blocks):
         super(Player, self).__init__()
         # self.health = 5
         # self.healthsurf = pygame.image.load("health.png").convert()
@@ -32,7 +32,9 @@ class Player(pygame.sprite.Sprite):
         self.left_looking_surface.set_colorkey((0, 0, 0), RLEACCEL)
         self.right_looking_surface.set_colorkey((0, 0, 0), RLEACCEL)
         self.surf = self.right_looking_surface
-        self.rect = self.surf.get_rect(topleft=(x, y))
+        self.rect = self.surf.get_rect(
+            topleft=(X_BORDER, self.screen_height - Y_BORDER - self.surf.get_height())
+        )
         self.v_velocity = 0
         self.is_jumping = False
         self.blocks = blocks

@@ -18,8 +18,8 @@ class Level:
         )
         self.blocks = pygame.sprite.Group()
         self.npcs = pygame.sprite.Group()
-        playerPos = [X_BORDER, Y_BORDER]
-        for ycoord, row in enumerate(self.level_design.splitlines()):
+        self.player = Player(self.screen, self.blocks)
+        for ycoord, row in enumerate(self.get_level_design().splitlines()):
             for xcoord, cell in enumerate(row):
                 if cell == "X":
                     block = Block(
@@ -30,24 +30,32 @@ class Level:
                 if cell == "N":
                     npc = NPC(
                         X_BORDER + xcoord * 32,
-                        Y_BORDER + ycoord * 32, self.screen
+                        Y_BORDER + ycoord * 32,
+                        self.screen,
+                        self.player
                     )
                     self.npcs.add(npc)
                 if cell == "P":
-                    playerPos = [X_BORDER + xcoord * 32, Y_BORDER + ycoord * 32]
-        self.player = Player(self.screen, self.blocks, playerPos[0], playerPos[1])
+                    self.player.rect.topleft = [X_BORDER + xcoord * 32, Y_BORDER + ycoord * 32]
 
-    def draw(self):
-        self.screen.fill(pygame.Color("white"))
+    def draw(self, surf):
+        surf.fill(pygame.Color("white"))
         self.game_surf.fill((0, 0, 0))
-        self.screen.blit(self.game_surf, (X_BORDER, Y_BORDER))
-        self.screen.blit(self.player.surf, self.player.rect)
+        surf.blit(self.game_surf, (X_BORDER, Y_BORDER))
+        surf.blit(self.player.surf, self.player.rect)
         for entity in self.blocks:
-            self.screen.blit(entity.surf, entity.rect)
+            surf.blit(entity.surf, entity.rect)
         for entity in self.npcs:
-            self.screen.blit(entity.surf, entity.rect)
+            surf.blit(entity.surf, entity.rect)
 
 
     def handle_input(self, pressed_keys):
         pressed_keys = pygame.key.get_pressed()
         self.player.update(pressed_keys)
+
+    def update(self):
+        for entity in self.npcs:
+            entity.update()
+
+    def get_level_design(self):
+        pass
