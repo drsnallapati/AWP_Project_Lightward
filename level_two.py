@@ -3,8 +3,7 @@ from player import Player
 from constants import *
 from level_2_design import level_2_design
 from level import Level
-
-
+from level_three import LevelThree
 
 class LevelTwo(Level):
     def __init__(self, screen):

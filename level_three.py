@@ -3,8 +3,7 @@ from player import Player
 from constants import *
 from level_3_design import level_3_design
 from level import Level
-
-
+from game_over import Game_Over
 
 class LevelThree(Level):
     def __init__(self, screen):
@@ -25,6 +24,11 @@ class LevelThree(Level):
     def get_level_design(self):
         return self.level_design
 
+
+    def update(self):
+        super().update()
+        if self.player.rect.colliderect(self.exit_block_rect):
+            self.next_scene = Game_Over
 
     #maybe should just be in the draw function instead now
     def draw_after_clipping(self):
