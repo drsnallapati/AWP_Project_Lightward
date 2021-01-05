@@ -8,6 +8,11 @@ from game_over import Game_Over
 class LevelThree(Level):
     def __init__(self, screen):
         self.level_design = level_3_design
+
+        # -- Background
+        self.level_3_background = pygame.image.load("level_3_backround.png")
+        self.level_3_background_rect = self.level_3_background.get_rect(topleft=[X_BORDER,Y_BORDER])
+
         super(LevelThree, self).__init__(screen)
         # sets the circle that'll be around the character
         #-- Exit Block
@@ -24,13 +29,15 @@ class LevelThree(Level):
     def get_level_design(self):
         return self.level_design
 
+    def get_background(self):
+        return [self.level_3_background, self.level_3_background_rect]
+
 
     def update(self):
         super().update()
         if self.player.rect.colliderect(self.exit_block_rect):
             self.next_scene = Game_Over
 
-    #maybe should just be in the draw function instead now
     def draw_after_clipping(self):
         for entity in self.npcs:
             entity.draw_after_clipping()

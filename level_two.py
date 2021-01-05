@@ -8,11 +8,17 @@ from level_three import LevelThree
 class LevelTwo(Level):
     def __init__(self, screen):
         self.level_design = level_2_design
+
+        # -- Background
+        self.level_2_background = pygame.image.load("level_2_backround.png")
+        self.level_2_background_rect = self.level_2_background.get_rect(topleft=[X_BORDER,Y_BORDER])
+
         super(LevelTwo, self).__init__(screen)
         # sets the circle that'll be around the character
         #-- Exit Block
         self.exit_block = pygame.image.load("exit.png")
         self.exit_block_rect = self.exit_block.get_rect(topleft=[X_BORDER, Y_BORDER])
+        super().__init__(screen)
 
     def draw(self):
         #since we set this in level, can we delete this as it defaults to self.screen?
@@ -24,6 +30,9 @@ class LevelTwo(Level):
     #get the correct level design
     def get_level_design(self):
         return self.level_design
+
+    def get_background(self):
+        return [self.level_2_background, self.level_2_background_rect]
 
     def update(self):
         super().update()

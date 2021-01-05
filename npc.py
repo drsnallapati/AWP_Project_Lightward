@@ -64,15 +64,3 @@ class NPC(pygame.sprite.Sprite):
 
 
 
-# ----TODO FINAL BOSS FIGHT -----
-# boss is impassable
-# when you jump down from the block, it should trigger a dialogue box
-# at the end of dialogue box, the fight begins
-# your circle gets twice as big
-# Level one boss shoots explosions in a outward circular pattern
-# Boss life bar is shown at the bottom of the screen - updates with each hit
-# half way - pattern becomes more dense and faster
-# quarter way down - pattern becomes more dense and faster
-# all the way down - dialogue box pops up
-# boss disappears and you walk ahead to exit
-# if you die, you respawn near the boss

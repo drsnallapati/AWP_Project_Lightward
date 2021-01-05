@@ -8,7 +8,10 @@ from level_two import LevelTwo
 class LevelOne(Level):
     def __init__(self, screen):
         self.level_design = level_1_design
-        super(LevelOne, self).__init__(screen)
+        # -- Background
+        self.level_1_background = pygame.image.load("level_1_backround.png")
+        self.level_1_background_rect = self.level_1_background.get_rect(topleft=[X_BORDER,Y_BORDER])
+        super().__init__(screen)
         # sets the circle that'll be around the character
         self.radius = LEVEL_1_LIGHT_RADIUS
         self.cover_surf = pygame.Surface((self.radius * 2, self.radius * 2))
@@ -19,10 +22,8 @@ class LevelOne(Level):
         )
         #-- Exit Block
         self.exit_block = pygame.image.load("exit.png")
+
         self.exit_block_rect = self.exit_block.get_rect(topleft=[X_BORDER, Y_BORDER])
-        # -- Background
-        self.level_1_background = pygame.image.load("level_1_backround.png")
-        self.background_rect = self.level_1_background.get_rect(topleft=[X_BORDER,Y_BORDER])
 
     def draw(self):
         surf = pygame.surface.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -37,7 +38,6 @@ class LevelOne(Level):
         )
         surf.set_clip(clip_rect)
 
-
         super(LevelOne, self).draw(surf)
 
 
@@ -47,16 +47,13 @@ class LevelOne(Level):
 
         self.screen.blit(surf, (0,0))
 
-        #setting background image
-        self.screen.blit(self.level_1_background,self.background_rect)
-
         self.draw_after_clipping()
 
     def get_level_design(self):
         return self.level_design
 
-    # def get_background(self):
-    #     return self.background_render
+    def get_background(self):
+        return [self.level_1_background, self.level_1_background_rect]
 
     def update(self):
         super().update()
@@ -67,3 +64,6 @@ class LevelOne(Level):
         for entity in self.npcs:
             entity.draw_after_clipping()
         self.screen.blit(self.exit_block, self.exit_block_rect)
+
+    def get_level_tmx(self):
+        return "level1.tmx"

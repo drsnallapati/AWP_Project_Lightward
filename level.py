@@ -1,4 +1,5 @@
 import pygame
+from pytmx import load_pygame
 
 from player import Player
 from constants import *
@@ -24,43 +25,63 @@ class Level:
         self.npcs = pygame.sprite.Group()
         self.impassables = pygame.sprite.Group()
         self.player = Player(self.screen, self.impassables)
+        self.background, self.background_rect = self.get_background()
         # -- Looping through the level design file and creating the map
         for ycoord, row in enumerate(self.get_level_design().splitlines()):
             for xcoord, cell in enumerate(row):
-                if cell == "X":
-                    block = Block(
-                        X_BORDER + xcoord * 32,
-                        Y_BORDER + ycoord * 32,
-                    )
-                    self.blocks.add(block)
-                    self.impassables.add(block)
-                if cell == "N":
+                # if cell == "X":
+                #     block = Block(
+                #         X_BORDER + xcoord * 32,
+                #         Y_BORDER + ycoord * 32,
+                #     )
+                #     self.blocks.add(block)
+                #     self.impassables.add(block)
+                # if cell == "N":
+                #     npc = NPC(
+                #         X_BORDER + xcoord * 32,
+                #         Y_BORDER + ycoord * 32,
+                #         self.screen,
+                #         self.player
+                #     )
+                #     self.npcs.add(npc)
+                #     self.impassables.add(npc)
+                if cell == "P":
+                    self.player.rect.topleft = [X_BORDER + xcoord * 32, Y_BORDER + ycoord * 32]
+
+        # Getting / Importing the map
+        tmxdata = load_pygame(self.get_level_tmx())
+        for layer in tmxdata.visible_layers:
+            for item in layer:
+                if layer.name == "Blocks":
+                    x, y, gid = item
+                    tile = tmxdata.get_tile_image_by_gid(gid)
+                    if tile:
+                        block = Block(
+                            X_BORDER + x*tmxdata.tilewidth,
+                            Y_BORDER + y*tmxdata.tileheight,
+                            tile)
+                        self.blocks.add(block)
+                        self.impassables.add(block)
+                if layer.name == "NPCs":
                     npc = NPC(
-                        X_BORDER + xcoord * 32,
-                        Y_BORDER + ycoord * 32,
+                        X_BORDER + item.x,
+                        Y_BORDER + item.y,
                         self.screen,
                         self.player
                     )
                     self.npcs.add(npc)
                     self.impassables.add(npc)
-                if cell == "P":
-                    self.player.rect.topleft = [X_BORDER + xcoord * 32, Y_BORDER + ycoord * 32]
-
-                #if is a walking surface, W
-                #   non-corner piece F
-                #   corner piece C
-                #       left exposed, L
-                #       right exposed, R
-                #       LR exposed   S
-                #elif if is a non-walking surface D
-                #   choose a dirt tile place M
-                #   dirt texture tile here and there T
+                if layer.name == "Player":
+                    self.player.rect.topleft = [X_BORDER + item.x, Y_BORDER + item.y]
 
     def draw(self, surf=None):
         if not surf:
             surf = self.screen
-        surf.fill(pygame.Color("white"))
+        surf.fill(pygame.Color("black"))
         surf.blit(self.game_surf, (X_BORDER, Y_BORDER))
+
+        surf.blit(self.background,self.background_rect)
+
         surf.blit(self.player.surf, self.player.rect)
         for entity in self.blocks:
             surf.blit(entity.surf, entity.rect)
@@ -79,5 +100,8 @@ class Level:
         pass
 
     def get_background(self):
+        pass
+
+    def get_level_tmx(self):
         pass
 
