@@ -49,7 +49,7 @@ class LevelThree(Level):
     def get_dialog_strings(self):
         return [
             "We all end up in a dark place sometimes",
-            "Remember what you did here...for it is not easy"
+            "Remember what you did here...for it was not easy"
         ]
 
     def get_current_level(self):

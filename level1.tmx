@@ -35,6 +35,6 @@
   <object id="1" gid="65" x="352" y="64" width="46" height="64"/>
  </objectgroup>
  <objectgroup id="5" name="Player">
-  <object id="2" gid="75" x="-0.000457064" y="543.886" width="32" height="32"/>
+  <object id="2" gid="75" x="446.759" y="66.1021" width="32" height="32"/>
  </objectgroup>
 </map>
