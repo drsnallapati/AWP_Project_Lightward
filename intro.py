@@ -66,3 +66,6 @@ class IntroScene:
 
     def update(self):
         pass
+
+    def get_music_file(self):
+        return "intro.ogg"

@@ -23,9 +23,12 @@ screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])
 intro_scene = IntroScene(screen)
 current_scene = intro_scene
 
+current_music = current_scene.get_music_file()
+pygame.mixer.music.load(current_music)
+pygame.mixer.music.play(-1)
+
 # MAIN LOOP
 running = True
-
 while running:
     events = pygame.event.get()
     for event in events:
@@ -47,6 +50,12 @@ while running:
     if current_scene.next_scene:
         next_scene = current_scene.next_scene(screen)
         current_scene = next_scene
+        if current_music != current_scene.get_music_file():
+            current_music = current_scene.get_music_file()
+            pygame.mixer.music.stop()
+            pygame.mixer.music.load(current_music)
+            pygame.mixer.music.play(-1)
+
 
     # Run at most at 60 FPS
     clock.tick(60)

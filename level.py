@@ -115,3 +115,5 @@ class Level:
     def get_current_level(self):
         pass
 
+    def get_music_file(self):
+        return "Levels.wav"

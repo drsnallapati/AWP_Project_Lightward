@@ -86,3 +86,6 @@ class Game_Over:
 
     def update(self):
         pass
+
+    def get_music_file(self):
+        return "end.mp3"
