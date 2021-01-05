@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="24" height="18" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="5">
+ <tileset firstgid="1" name="terrain" tilewidth="32" tileheight="32" tilecount="64" columns="8">
+  <image source="Sprute.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="65" name="npc" tilewidth="46" tileheight="64" tilecount="4" columns="4" objectalignment="bottomright">
+  <image source="threeformsPJ2x.png" width="184" height="64"/>
+ </tileset>
+ <tileset firstgid="69" name="Player" tilewidth="32" tileheight="32" tilecount="12" columns="3">
+  <image source="sprite_sheet.png" width="96" height="128"/>
+ </tileset>
+ <layer id="1" name="Blocks" width="24" height="18">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,21,
+0,0,0,21,21,21,21,0,0,0,0,0,0,21,21,0,21,0,0,0,0,0,0,21,
+21,21,21,0,0,0,0,21,21,21,21,21,21,0,0,0,0,0,21,0,0,0,0,21,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,21,21,21,0,0,21,
+21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,0,0,0,0,21,21,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,21,0,0,0,21,21,21,
+0,0,0,21,21,21,0,0,21,21,0,21,21,21,0,0,0,21,0,0,21,21,21,21,
+0,21,21,21,21,21,0,0,21,21,0,0,0,0,0,21,21,21,0,0,0,0,0,21,
+0,0,0,0,0,0,0,0,0,21,0,0,0,0,0,21,0,0,21,21,21,0,0,21,
+21,0,21,0,21,0,21,0,0,21,0,21,21,21,21,21,0,0,21,21,21,21,0,21,
+0,0,0,0,0,0,0,0,21,21,0,0,0,0,0,21,0,0,0,0,0,0,0,21,
+0,0,21,0,21,0,21,0,0,21,21,21,21,21,0,21,0,0,0,0,21,21,21,21,
+21,0,0,0,0,0,0,0,0,21,0,0,0,21,0,21,0,0,0,0,0,0,0,21,
+0,21,0,0,0,0,0,0,21,21,0,0,0,0,0,21,21,21,0,21,21,21,21,21,
+0,0,21,0,21,0,21,21,21,21,0,21,0,21,21,0,0,0,0,0,0,0,0,21,
+21,21,0,0,0,0,0,21,21,21,0,0,0,0,21,21,21,21,21,21,21,0,0,21,
+0,0,0,0,0,0,0,0,0,21,0,0,0,0,0,0,0,0,0,0,0,0,21,21,
+21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21
+</data>
+ </layer>
+ <objectgroup id="4" name="NPCs">
+  <object id="1" gid="65" x="352" y="64" width="46" height="64"/>
+ </objectgroup>
+ <objectgroup id="5" name="Player">
+  <object id="2" gid="75" x="160" y="32.3158" width="32" height="32"/>
+ </objectgroup>
+</map>

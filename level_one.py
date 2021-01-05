@@ -22,7 +22,6 @@ class LevelOne(Level):
         )
         #-- Exit Block
         self.exit_block = pygame.image.load("exit.png")
-
         self.exit_block_rect = self.exit_block.get_rect(topleft=[X_BORDER, Y_BORDER])
 
     def draw(self):

@@ -45,3 +45,6 @@ class LevelTwo(Level):
         for entity in self.npcs:
             entity.draw_after_clipping()
 
+    def get_level_tmx(self):
+        return "level2.tmx"
+
