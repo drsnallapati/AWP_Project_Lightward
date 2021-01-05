@@ -66,8 +66,8 @@ class Player(pygame.sprite.Sprite):
         player_rect = self.rect.copy()
         player_rect.left += 4
         player_rect.width -= 8
-        player_rect.top += 4
-        player_rect.height -= 4
+        player_rect.top += 8
+        player_rect.height -= 8
         returned_blocks = []
         for block in self.blocks:
             if player_rect.colliderect(block.rect):
