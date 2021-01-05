@@ -1,6 +1,6 @@
 import pygame
 from pygame.locals import KEYDOWN, K_RETURN, MOUSEBUTTONUP
-from level_one import LevelOne
+import level_one
 
 
 class Game_Over:
@@ -77,10 +77,10 @@ class Game_Over:
         for event in event_list:
             if event.type == KEYDOWN:
                 if event.key == K_RETURN:
-                    self.next_scene = LevelOne
+                    self.next_scene = level_one.LevelOne
             if event.type == MOUSEBUTTONUP:
                 if self.hovered_play_again:
-                    self.next_scene = LevelOne
+                    self.next_scene = level_one.LevelOne
                 if self.hovered_exit:
                     pygame.quit()
 

@@ -20,13 +20,15 @@ class LevelOne(Level):
         #-- Exit Block
         self.exit_block = pygame.image.load("exit.png")
         self.exit_block_rect = self.exit_block.get_rect(topleft=[X_BORDER, Y_BORDER])
-
+        # -- Background
+        self.level_1_background = pygame.image.load("level_1_backround.png")
+        self.background_rect = self.level_1_background.get_rect(topleft=[X_BORDER,Y_BORDER])
 
     def draw(self):
         surf = pygame.surface.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
         clip_center = self.player.rect.center
         # clear screen and set clipping region
-        surf.fill(0)
+        # surf.fill(0)
         clip_rect = pygame.Rect(
             clip_center[0] - self.radius,
             clip_center[1] - self.radius,
@@ -35,16 +37,26 @@ class LevelOne(Level):
         )
         surf.set_clip(clip_rect)
 
+
         super(LevelOne, self).draw(surf)
+
 
         # draw transparent circle and update display
 
         surf.blit(self.cover_surf, clip_rect)
+
         self.screen.blit(surf, (0,0))
+
+        #setting background image
+        self.screen.blit(self.level_1_background,self.background_rect)
+
         self.draw_after_clipping()
 
     def get_level_design(self):
         return self.level_design
+
+    # def get_background(self):
+    #     return self.background_render
 
     def update(self):
         super().update()

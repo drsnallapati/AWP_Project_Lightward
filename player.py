@@ -18,9 +18,32 @@ from constants import *
 class Player(pygame.sprite.Sprite):
     def __init__(self, screen, blocks):
         super(Player, self).__init__()
-        # self.health = 6
-        # self.healthsurf = pygame.image.load("health.png").convert()
-        # self.healthsurf.set_colorkey((0, 0, 0), RLEACCEL)
+        # -- health
+        self.health = 6
+        # self.health_sheet = pygame.image.load("health.png").convert()
+        #  self.full_health_surf = pygame.surface.Surface((32,32))
+        #  self.five_health_surf = pygame.surface.Surface((32,32))
+        #  self.four_health_surf = pygame.surface.Surface((32,32))
+        #  self.three_health_surf = pygame.surface.Surface((32,32))
+        #  self.two_health_surf = pygame.surface.Surface((32,32))
+        #  self.one_health_surf = pygame.surface.Surface((32,32))
+        #  self.zero_health_surf = pygame.surface.Surface((32,32))
+        #  self.full_health_surf.blit(self.health_sheet, (0, 0), (0, 0, 32, 32))
+        #  self.five_health_surf.blit(self.health_sheet, (0, 0), (0, 0, 64, 32))
+        #  self.four_health_surf.blit(self.health_sheet, (0, 0), (0, 0, 96, 32))
+        #  self.three_health_surf.blit(self.health_sheet, (0, 0), (0, 0, 128, 32))
+        #  self.two_health_surf.blit(self.health_sheet, (0, 0), (0, 0, 0, 64))
+        #  self.one_health_surf.blit(self.health_sheet, (0, 0), (0, 0, 32, 64))
+        #  self.zero_health_surf.blit(self.health_sheet, (0, 0), (0, 0, 64, 64))
+
+        # self.full_health_surf.set_colorkey((0, 0, 0), RLEACCEL)
+        # self.five_health_surf.set_colorkey((0, 0, 0), RLEACCEL)
+        # self.four_health_surf.set_colorkey((0, 0, 0), RLEACCEL)
+        # self.three_health_surf.set_colorkey((0, 0, 0), RLEACCEL)
+        # self.two_health_surf.set_colorkey((0, 0, 0), RLEACCEL)
+        # self.one_health_surf.set_colorkey((0, 0, 0), RLEACCEL)
+        # self.zero_health_surf.set_colorkey((0, 0, 0), RLEACCEL)
+
         self.screen = screen
         self.screen_width = screen.get_width()
         self.screen_height = screen.get_height()
@@ -80,8 +103,38 @@ class Player(pygame.sprite.Sprite):
             self.v_velocity = 0
 
     # def draw_health(self, screen):
-    #     for i in range(self.health):
-    #         self.healthrect = self.healthsurf.get_rect(
-    #             center=((SCREEN_WIDTH - 10) - 20 * i, 20)
+    # if self.health == 6:
+    #   self.full_health_rect = self.full_health_surf.get_rect(
+    #             center=((SCREEN_WIDTH - X_BORDER) - 5 * i, 20)
     #         )
-    #         screen.blit(self.healthsurf, self.healthrect)
+    #   screen.blit(self.full_health_surf, self.full_health_rect)
+    # elif self.health == 5:
+    #   self.five_health_rect = self.five_health_surf.get_rect(
+    #             center=((SCREEN_WIDTH - X_BORDER) - 5 * i, 20)
+    #         )
+    #    screen.blit(self.five_health_surf, self.five_health_rect)
+    # elif self.health == 4:
+    #   self.four_health_rect = self.four_health_surf.get_rect(
+    #             center=((SCREEN_WIDTH - X_BORDER) - 5 * i, 20)
+    #         )
+    #    screen.blit(self.four_health_surf, self.four_health_rect)
+    # elif self.health == 3:
+    #   self.three_health_rect = self.three_health_surf.get_rect(
+    #             center=((SCREEN_WIDTH - X_BORDER) - 5 * i, 20)
+    #         )
+    #    screen.blit(self.three_health_surf, self.three_health_rect)
+    # elif self.health == 2:
+    #   self.two_health_rect = self.two_health_surf.get_rect(
+    #             center=((SCREEN_WIDTH - X_BORDER) - 5 * i, 20)
+    #         )
+    #    screen.blit(self.two_health_surf, self.two_health_rect)
+    # elif self.health == 1:
+    #   self.one_health_rect = self.one_health_surf.get_rect(
+    #             center=((SCREEN_WIDTH - X_BORDER) - 5 * i, 20)
+    #         )
+    #    screen.blit(self.one_health_surf, self.one_health_rect)
+    #elif self.health == 0:
+    #   self.zero_health_rect = self.zero_health_surf.get_rect(
+    #             center=((SCREEN_WIDTH - X_BORDER) - 5 * i, 20)
+    #         )
+    #    screen.blit(self.zero_health_surf, self.zero_health_rect)

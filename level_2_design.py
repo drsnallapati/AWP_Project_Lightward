@@ -1,7 +1,7 @@
 import pygame
 
 level_2_design = """E
-   XXX  X      X       X
+   XXX PX      X       X
 XXX   X    X      X    X
 XXXXXXXXXXXXXXXXXXXXX  X
              X        XX

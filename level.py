@@ -46,19 +46,26 @@ class Level:
                 if cell == "P":
                     self.player.rect.topleft = [X_BORDER + xcoord * 32, Y_BORDER + ycoord * 32]
 
+                #if is a walking surface, W
+                #   non-corner piece F
+                #   corner piece C
+                #       left exposed, L
+                #       right exposed, R
+                #       LR exposed   S
+                #elif if is a non-walking surface D
+                #   choose a dirt tile place M
+                #   dirt texture tile here and there T
 
     def draw(self, surf=None):
         if not surf:
             surf = self.screen
         surf.fill(pygame.Color("white"))
-        self.game_surf.fill((0, 0, 0))
         surf.blit(self.game_surf, (X_BORDER, Y_BORDER))
         surf.blit(self.player.surf, self.player.rect)
         for entity in self.blocks:
             surf.blit(entity.surf, entity.rect)
         for entity in self.npcs:
             surf.blit(entity.surf, entity.rect)
-
 
     def handle_input(self, pressed_keys):
         pressed_keys = pygame.key.get_pressed()
@@ -69,5 +76,8 @@ class Level:
             entity.update()
 
     def get_level_design(self):
+        pass
+
+    def get_background(self):
         pass
 
