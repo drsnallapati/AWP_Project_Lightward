@@ -66,3 +66,12 @@ class LevelOne(Level):
 
     def get_level_tmx(self):
         return "level1.tmx"
+
+    def get_dialog_strings(self):
+        return [
+            "Ah! I see you were able to find your way!",
+            "Let's see if you've got what it takes!"
+        ]
+
+    def get_current_level(self):
+        return 1

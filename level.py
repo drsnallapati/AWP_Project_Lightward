@@ -27,6 +27,7 @@ class Level:
         self.player = Player(self.screen, self.impassables)
         self.background, self.background_rect = self.get_background()
         # -- Looping through the level design file and creating the map
+        dialog_string_1, dialog_string_2 = self.get_dialog_strings()
         for ycoord, row in enumerate(self.get_level_design().splitlines()):
             for xcoord, cell in enumerate(row):
                 # if cell == "X":
@@ -67,7 +68,10 @@ class Level:
                         X_BORDER + item.x,
                         Y_BORDER + item.y,
                         self.screen,
-                        self.player
+                        self.player,
+                        dialog_string_1,
+                        dialog_string_2,
+                        self.get_current_level()
                     )
                     self.npcs.add(npc)
                     self.impassables.add(npc)
@@ -103,5 +107,11 @@ class Level:
         pass
 
     def get_level_tmx(self):
+        pass
+
+    def get_dialog_strings(self):
+        pass
+
+    def get_current_level(self):
         pass
 

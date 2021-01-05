@@ -12,6 +12,8 @@ class IntroScene:
         self.game_surf = pygame.Surface(
             (self.screen_width - 20, self.screen_height - 20)
         )
+        self.intro_pic = pygame.image.load("intro_scene.png")
+        self.intro_pic_rect = self.intro_pic.get_rect(center = [self.screen_width / 2, (self.screen_height - 250) / 2])
         self.font = pygame.font.SysFont("monospace", 32)
         self.welcome_text = self.font.render("Lightward", True, [255, 255, 255])
         self.welcome_textRect = self.welcome_text.get_rect(
@@ -36,7 +38,8 @@ class IntroScene:
         self.screen.fill(pygame.Color("white"))
         self.game_surf.fill((0, 0, 0))
         self.screen.blit(self.game_surf, (10, 10))
-        # places the text on the screen
+        # places the image and text on the screen
+        self.screen.blit(self.intro_pic,self.intro_pic_rect)
         self.screen.blit(self.welcome_text, self.welcome_textRect)
         self.screen.blit(self.instructions_text, self.instructions_textRect)
 

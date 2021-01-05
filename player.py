@@ -62,31 +62,43 @@ class Player(pygame.sprite.Sprite):
         self.is_jumping = False
         self.blocks = blocks
 
+    def check_collide(self):
+        player_rect = self.rect.copy()
+        player_rect.left += 4
+        player_rect.width -= 8
+        player_rect.top += 4
+        player_rect.height -= 4
+        returned_blocks = []
+        for block in self.blocks:
+            if player_rect.colliderect(block.rect):
+                returned_blocks.append(block)
+        return returned_blocks
+
     def update(self, pressed_keys):
         if pressed_keys[K_RIGHT] or pressed_keys[K_d]:
             self.surf = self.right_looking_surface
             self.rect.move_ip(2, 0)
-            block_hit_list = pygame.sprite.spritecollide(self, self.blocks, False)
+            block_hit_list = self.check_collide()
             for block in block_hit_list:
-                self.rect.right = block.rect.left
+                self.rect.right = block.rect.left+4
         if pressed_keys[K_LEFT] or pressed_keys[K_a]:
             self.surf = self.left_looking_surface
             self.rect.move_ip(-2, 0)
-            block_hit_list = pygame.sprite.spritecollide(self, self.blocks, False)
+            block_hit_list = self.check_collide()
             for block in block_hit_list:
-                self.rect.left = block.rect.right
+                self.rect.left = block.rect.right-4
         if pressed_keys[K_SPACE] or pressed_keys[K_w] or pressed_keys[K_UP]:
             if self.v_velocity == 0 and self.is_jumping == False:
                 self.v_velocity = JUMP_VELOCITY
                 self.is_jumping = True
         self.rect.move_ip(0, self.v_velocity)
         if self.is_jumping == True and self.v_velocity < 0:
-            block_hit_list = pygame.sprite.spritecollide(self, self.blocks, False)
+            block_hit_list = self.check_collide()
             for block in block_hit_list:
                 self.rect.top = block.rect.bottom
                 self.v_velocity = 0
         self.v_velocity += GRAVITY
-        block_hit_list = pygame.sprite.spritecollide(self, self.blocks, False)
+        block_hit_list = self.check_collide()
         for block in block_hit_list:
             self.is_jumping = False
             self.rect.bottom = block.rect.top

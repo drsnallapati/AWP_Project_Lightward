@@ -54,7 +54,7 @@ class Game_Over:
         self.screen.blit(self.game_surf, (10, 10))
         self.screen.blit(self.welcome_text, self.welcome_textRect)
         self.screen.blit(self.win_instructions_text, self.win_instructions_textRect)
-        self.screen.blit(self.loss_instructions_text, self.loss_instructions_textRect)
+        # self.screen.blit(self.loss_instructions_text, self.loss_instructions_textRect)
         if self.hovered_play_again:
             self.screen.blit(self.play_again_hover_text, self.play_again_textRect)
         else:

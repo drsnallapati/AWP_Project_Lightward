@@ -15,28 +15,38 @@ from pygame.locals import (
 from constants import *
 
 class NPC(pygame.sprite.Sprite):
-    def __init__(self, x, y, screen, player):
+    def __init__(self, x, y, screen, player, dialog_first, dialog_second,current_scene):
         super(NPC, self).__init__()
         self.screen = screen
         self.player = player
         self.screen_width = screen.get_width()
         self.screen_height = screen.get_height()
-        self.level_one_NPC = pygame.image.load("threeformsPJ2x.png").convert()
-        self.level_one_NPC_surface = pygame.surface.Surface((46, 64))
-        self.level_one_NPC_surface.blit(self.level_one_NPC, (0, 0), (0, 0, 46, 64))
-        self.level_one_NPC_surface.set_colorkey((0, 0, 0), RLEACCEL)
-        self.surf = self.level_one_NPC_surface
-        self.rect = self.level_one_NPC_surface.get_rect(topleft=[x, y])
-        # --- dialogue box ---
+        self.npcs = pygame.image.load("threeformsPJ2x.png").convert()
+        self.surf = None
+        if current_scene == 1:
+            self.surf = pygame.surface.Surface((46, 64))
+            self.surf.blit(self.npcs, (0, 0), (0, 0, 46, 64))
+        if current_scene == 2:
+            self.surf = pygame.surface.Surface((72,64))
+            self.surf.blit(self.npcs, (0, 0), (51, 0, 72, 64))
+        if current_scene == 3:
+            self.surf = pygame.surface.Surface((51,64))
+            self.surf.blit(self.npcs, (0, 0), (134, 0, 51, 64))
+
+        self.surf.set_colorkey((0, 0, 0), RLEACCEL)
+        self.rect = self.surf.get_rect(topleft=[x, y])
+
+        # --- dialogue box---
         self.font = pygame.font.SysFont("monospace", 20)
-        self.dialogue1_text = self.font.render("Ah! I see you were able to find your way!", True, pygame.Color("white"), pygame.Color("black"))
+        self.dialogue1_text = self.font.render(dialog_first, True, pygame.Color("white"), pygame.Color("black"))
         self.dialogue1_textRect = self.dialogue1_text.get_rect(
             center=[self.screen_width / 2, (self.screen_height) / 2]
         )
-        self.dialogue2_text = self.font.render("Let's see if you've got what it takes!", True, pygame.Color("white"), pygame.Color("black"))
+        self.dialogue2_text = self.font.render(dialog_second, True, pygame.Color("white"), pygame.Color("black"))
         self.dialogue2_textRect = self.dialogue2_text.get_rect(
             center=[self.screen_width / 2, ((self.screen_height/2) + (self.dialogue1_text.get_height()+14))]
         )
+
         self.active_NPC = False
         self.show_dialogue = False
         self.dialogue_activation_rect = self.rect.copy()

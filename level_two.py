@@ -26,6 +26,8 @@ class LevelTwo(Level):
         super().draw()
         #draw the exit image
         self.screen.blit(self.exit_block, self.exit_block_rect)
+        for npc in self.npcs:
+            npc.draw_after_clipping()
 
     #get the correct level design
     def get_level_design(self):
@@ -48,3 +50,11 @@ class LevelTwo(Level):
     def get_level_tmx(self):
         return "level2.tmx"
 
+    def get_dialog_strings(self):
+        return [
+            "How did you get this far??",
+            "Turn back! You're not strong enough!"
+        ]
+
+    def get_current_level(self):
+        return 2

@@ -24,6 +24,8 @@ class LevelThree(Level):
         super().draw()
         #draw the exit image
         self.screen.blit(self.exit_block, self.exit_block_rect)
+        for npc in self.npcs:
+            npc.draw_after_clipping()
 
     #get the correct level design
     def get_level_design(self):
@@ -31,7 +33,6 @@ class LevelThree(Level):
 
     def get_background(self):
         return [self.level_3_background, self.level_3_background_rect]
-
 
     def update(self):
         super().update()
@@ -45,3 +46,11 @@ class LevelThree(Level):
     def get_level_tmx(self):
         return "level3.tmx"
 
+    def get_dialog_strings(self):
+        return [
+            "We all end up in a dark place sometimes",
+            "Remember what you did here...for it is not easy"
+        ]
+
+    def get_current_level(self):
+        return 3
