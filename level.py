@@ -85,8 +85,8 @@ class Level:
         surf.blit(self.game_surf, (X_BORDER, Y_BORDER))
 
         surf.blit(self.background,self.background_rect)
-
-        surf.blit(self.player.surf, self.player.rect)
+        # draw the player
+        self.player.draw(surf)
         for entity in self.blocks:
             surf.blit(entity.surf, entity.rect)
         for entity in self.npcs:
