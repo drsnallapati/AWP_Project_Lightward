@@ -41,7 +41,7 @@ class Player(pygame.sprite.Sprite):
         ]
 
         self.health_rect = self.full_health_surf.get_rect(
-                center=((SCREEN_WIDTH - X_BORDER) - health_size, 20)
+                center=((SCREEN_WIDTH/2), Y_BORDER/2)
             )
 
         self.full_health_surf.blit(self.health_sheet, (0, 0), (0, 0, health_size, health_size))
@@ -125,8 +125,8 @@ class Player(pygame.sprite.Sprite):
             self.rect.right = self.screen_width - X_BORDER
         if self.rect.top < 0 + Y_BORDER:
             self.rect.top = 0 + Y_BORDER
-        if self.rect.bottom > self.screen_height - Y_BORDER:
-            self.rect.bottom = self.screen_height - Y_BORDER
+        if self.rect.bottom > self.screen_height:
+            self.rect.bottom = self.screen_height
             self.is_jumping = False
             self.v_velocity = 0
 

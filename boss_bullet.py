@@ -21,5 +21,5 @@ class BossBullet(pygame.sprite.Sprite):
         if ( (self.rect.left < 0 + X_BORDER) or
            (self.rect.right > self.screen_width - X_BORDER) or
            (self.rect.top < 0 + Y_BORDER) or
-           (self.rect.bottom > self.screen_height - Y_BORDER) ) :
+           (self.rect.bottom > self.screen_height) ) :
             self.kill()

@@ -4,6 +4,7 @@ from pytmx import load_pygame
 from player import Player
 from constants import *
 from block import Block
+import game_over
 
 from npc import NPC
 
@@ -18,7 +19,7 @@ class Level:
 
         # -- Defining the Game surface
         self.game_surf = pygame.Surface(
-            (self.screen_width - X_BORDER * 2, self.screen_height - Y_BORDER * 2)
+            (self.screen_width - X_BORDER * 2, self.screen_height - Y_BORDER)
         )
         # -- Defining blocks, NPCs and impassable sprite groups
         self.blocks = pygame.sprite.Group()
@@ -99,7 +100,13 @@ class Level:
     def update(self):
         for entity in self.npcs:
             entity.update()
-
+        for npc in self.npcs:
+            bullet_collided = pygame.sprite.spritecollideany(self.player, npc.bullets)
+            if bullet_collided:
+                self.player.health -= 1
+                bullet_collided.kill()
+                if self.player.health < 1:
+                    self.next_scene = game_over.Game_Over
 
     def get_level_design(self):
         pass
