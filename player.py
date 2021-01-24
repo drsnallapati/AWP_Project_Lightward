@@ -131,10 +131,8 @@ class Player(pygame.sprite.Sprite):
             self.v_velocity = 0
 
     def draw(self, surf):
-        self.draw_health(surf)
         surf.blit(self.surf, self.rect)
 
-
-    def draw_health(self, surf):
+    def draw_health(self):
         # check which health symbol needs to be drawn and pull that screen
-        surf.blit(self.health_surfaces[self.health], self.health_rect)
+        self.screen.blit(self.health_surfaces[self.health], self.health_rect)

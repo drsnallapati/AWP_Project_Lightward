@@ -13,6 +13,7 @@ from pygame.locals import (
     K_UP,
 )
 from constants import *
+import boss_bullet
 
 class NPC(pygame.sprite.Sprite):
     def __init__(self, x, y, screen, player, dialog_first, dialog_second,current_scene):
@@ -54,6 +55,10 @@ class NPC(pygame.sprite.Sprite):
         self.dialogue_activation_rect.width *= 2
         self.dialogue_activation_rect.left -= self.surf.get_width()/2
 
+        self.bullets = pygame.sprite.Group()
+        self.last_bullet_created = pygame.time.get_ticks()
+
+
     def update(self):
 
         if self.dialogue_activation_rect.colliderect(self.player.rect) and self.active_NPC == False:
@@ -66,11 +71,27 @@ class NPC(pygame.sprite.Sprite):
                 self.show_dialogue = False #remove dialogue and remove NPC surfs
                 self.kill()
 
+        # create a new bullet every .5 seconds
+        if self.last_bullet_created + 500 <= pygame.time.get_ticks():
+            self.last_bullet_created = pygame.time.get_ticks()
+            self.bullets.add(boss_bullet.BossBullet(
+                self.screen,
+                self.rect.centerx,
+                self.rect.centery,
+                1,
+                1)
+            )
+
+        for bullet in self.bullets:
+            bullet.update()
+
     def draw_after_clipping(self):
-            if self.show_dialogue == True:
-                self.screen.blit(self.dialogue1_text,self.dialogue1_textRect)
-                self.screen.blit(self.dialogue2_text,self.dialogue2_textRect)
-                self.screen.blit(self.surf,self.rect)
+        if self.show_dialogue == True:
+            self.screen.blit(self.dialogue1_text,self.dialogue1_textRect)
+            self.screen.blit(self.dialogue2_text,self.dialogue2_textRect)
+            self.screen.blit(self.surf,self.rect)
+        for bullet in self.bullets:
+            bullet.draw()
 
 
 

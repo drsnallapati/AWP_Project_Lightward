@@ -60,6 +60,7 @@ class LevelOne(Level):
             self.next_scene = LevelTwo
 
     def draw_after_clipping(self):
+        super().draw_after_clipping()
         for entity in self.npcs:
             entity.draw_after_clipping()
         self.screen.blit(self.exit_block, self.exit_block_rect)

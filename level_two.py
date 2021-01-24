@@ -26,8 +26,7 @@ class LevelTwo(Level):
         super().draw()
         #draw the exit image
         self.screen.blit(self.exit_block, self.exit_block_rect)
-        for npc in self.npcs:
-            npc.draw_after_clipping()
+        self.draw_after_clipping()
 
     #get the correct level design
     def get_level_design(self):
@@ -41,9 +40,8 @@ class LevelTwo(Level):
         if self.player.rect.colliderect(self.exit_block_rect):
             self.next_scene = LevelThree
 
-
-    #maybe should just be in the draw function instead now
     def draw_after_clipping(self):
+        super().draw_after_clipping()
         for entity in self.npcs:
             entity.draw_after_clipping()
 

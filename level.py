@@ -100,6 +100,7 @@ class Level:
         for entity in self.npcs:
             entity.update()
 
+
     def get_level_design(self):
         pass
 
@@ -117,3 +118,6 @@ class Level:
 
     def get_music_file(self):
         return "Levels.wav"
+
+    def draw_after_clipping(self):
+        self.player.draw_health()
