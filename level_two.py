@@ -38,7 +38,7 @@ class LevelTwo(Level):
     def update(self):
         super().update()
         if self.player.rect.colliderect(self.exit_block_rect):
-            self.next_scene = LevelThree
+            self.next_scene = LevelThree(self.screen)
 
     def draw_after_clipping(self):
         super().draw_after_clipping()

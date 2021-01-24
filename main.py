@@ -48,7 +48,7 @@ while running:
     pygame.display.flip()
 
     if current_scene.next_scene:
-        next_scene = current_scene.next_scene(screen)
+        next_scene = current_scene.next_scene
         current_scene = next_scene
         if current_music != current_scene.get_music_file():
             current_music = current_scene.get_music_file()

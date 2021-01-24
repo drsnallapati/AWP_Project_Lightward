@@ -59,10 +59,10 @@ class IntroScene:
         for event in event_list:
             if event.type == KEYDOWN:
                 if event.key == K_RETURN:
-                    self.next_scene = LevelOne
+                    self.next_scene = LevelOne(self.screen)
             if event.type == MOUSEBUTTONUP:
                 if self.hovered:
-                    self.next_scene = LevelOne
+                    self.next_scene = LevelOne(self.screen)
 
     def update(self):
         pass

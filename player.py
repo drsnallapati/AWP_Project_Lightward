@@ -69,6 +69,7 @@ class Player(pygame.sprite.Sprite):
         self.v_velocity = 0
         self.is_jumping = False
         self.blocks = blocks
+        self.last_gravity_check = pygame.time.get_ticks()
 
     def check_collide(self):
         player_rect = self.rect.copy()
@@ -113,7 +114,9 @@ class Player(pygame.sprite.Sprite):
                 self.rect.top = block.rect.bottom
                 self.v_velocity = 0
         # keeps the character from leaving the screen
-        self.v_velocity += GRAVITY
+        if self.last_gravity_check + 48 < pygame.time.get_ticks():
+            self.last_gravity_check = pygame.time.get_ticks()
+            self.v_velocity += GRAVITY
         block_hit_list = self.check_collide()
         for block in block_hit_list:
             self.is_jumping = False

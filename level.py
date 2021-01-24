@@ -106,7 +106,7 @@ class Level:
                 self.player.health -= 1
                 bullet_collided.kill()
                 if self.player.health < 1:
-                    self.next_scene = game_over.Game_Over
+                    self.next_scene = game_over.GameOver(self.screen, "We all stumble at some point. Want to try again or take a break?")
 
     def get_level_design(self):
         pass
