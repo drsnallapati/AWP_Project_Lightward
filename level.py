@@ -27,6 +27,7 @@ class Level:
         self.impassables = pygame.sprite.Group()
         self.player = Player(self.screen, self.impassables, self.blocks)
         self.background, self.background_rect = self.get_background()
+
         # -- Looping through the level design file and creating the map
         dialog_string_1, dialog_string_2 = self.get_dialog_strings()
         for ycoord, row in enumerate(self.get_level_design().splitlines()):
@@ -62,6 +63,13 @@ class Level:
                     self.impassables.add(npc)
                 if layer.name == "Player":
                     self.player.rect.topleft = [X_BORDER + item.x, Y_BORDER + item.y]
+                if layer.name == "BossBlock":
+                    self.boss_block_rect = pygame.Rect(
+                        X_BORDER + item.x,
+                        Y_BORDER + item.y,
+                        item.width,
+                        item.height
+                    )
 
     def draw(self, surf=None):
         if not surf:
@@ -76,6 +84,7 @@ class Level:
             surf.blit(entity.surf, entity.rect)
         for entity in self.npcs:
             surf.blit(entity.surf, entity.rect)
+            # draws the actual bullets
             for bullet in entity.bullets:
                 bullet.draw(surf)
 
@@ -96,10 +105,16 @@ class Level:
                     self.next_scene = game_over.GameOver(self.screen, "We all stumble at some point. Want to try again or take a break?")
             player_bullet_collided = pygame.sprite.spritecollideany(npc, self.player.player_bullets)
             if player_bullet_collided:
-                npc.health -= 1
+                npc.hurt()
                 player_bullet_collided.kill()
                 if npc.health < 1:
-                    self.next_scene = game_over.GameOver(self.screen)
+                    npc.kill()
+        if len(self.npcs):
+            if self.boss_block_rect.colliderect(self.player.rect):
+                if self.boss_block_rect.centerx < self.player.rect.left:
+                    self.player.rect.left = self.boss_block_rect.right
+                else:
+                    self.player.rect.right = self.boss_block_rect.left
 
 
     def get_level_design(self):

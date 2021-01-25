@@ -1,5 +1,6 @@
 """ Represents NPCs in the game world """
 import pygame
+import random
 from pygame.locals import (
     KEYDOWN,
     K_LEFT,
@@ -15,6 +16,11 @@ from pygame.locals import (
 from constants import *
 import boss_bullet
 
+HEALTH_BLOCK_WIDTH = 24
+HEALTH_BLOCK_HEIGHT = 16
+HEALTH_BLOCK_Y_OFFSET = 24
+HEALTH_BLOCK_X_OFFSET = 32
+
 class NPC(pygame.sprite.Sprite):
     def __init__(self, x, y, screen, player, dialog_first, dialog_second, current_scene, blocks):
         super(NPC, self).__init__()
@@ -22,21 +28,24 @@ class NPC(pygame.sprite.Sprite):
         self.player = player
         self.screen_width = screen.get_width()
         self.screen_height = screen.get_height()
-        self.npcs = pygame.image.load("threeformsPJ2x.png").convert()
+        self.npcs = pygame.image.load("Bigger_bosses.png").convert_alpha()
         self.surf = None
         if current_scene == 1:
-            self.surf = pygame.surface.Surface((46, 64))
-            self.surf.blit(self.npcs, (0, 0), (0, 0, 46, 64))
+            self.surf = pygame.surface.Surface((88, 110), pygame.SRCALPHA)
+            self.surf.blit(self.npcs, (0, 0), (0, 0, 88, 110))
             self.health = 10
+            self.maxHealth = 10
         if current_scene == 2:
-            self.surf = pygame.surface.Surface((72,64))
-            self.surf.blit(self.npcs, (0, 0), (51, 0, 72, 64))
+            self.surf = pygame.surface.Surface((128,110), pygame.SRCALPHA)
+            self.surf.blit(self.npcs, (0, 0), (88, 0, 128, 110))
             self.health = 15
+            self.maxHealth = 15
         if current_scene == 3:
-            self.surf = pygame.surface.Surface((51,64))
-            self.surf.blit(self.npcs, (0, 0), (134, 0, 51, 64))
+            self.surf = pygame.surface.Surface((95,110), pygame.SRCALPHA)
+            self.surf.blit(self.npcs, (0, 0), (220, 0, 95, 110))
             self.health = 20
-        self.surf.set_colorkey((0, 0, 0), RLEACCEL)
+            self.maxHealth = 20
+        # self.surf.set_colorkey((0, 0, 0), RLEACCEL)
         self.rect = self.surf.get_rect(topleft=[x, y])
 
         # --- dialogue box---
@@ -62,6 +71,12 @@ class NPC(pygame.sprite.Sprite):
         self.speed = 1
         self.blocks = blocks
 
+        self.healthBlock = pygame.surface.Surface([HEALTH_BLOCK_WIDTH, HEALTH_BLOCK_HEIGHT])
+        self.healthBlock.fill(pygame.Color("Purple"))
+        self.hurtBlock = pygame.surface.Surface([HEALTH_BLOCK_WIDTH, HEALTH_BLOCK_HEIGHT])
+        self.hurtBlock.fill(pygame.Color("Yellow"))
+        self.hurtTimes = {}
+
 
     def update(self):
         if self.dialogue_activation_rect.colliderect(self.player.rect) and self.active_NPC == False:
@@ -73,16 +88,17 @@ class NPC(pygame.sprite.Sprite):
             if seconds > 10: #if more than 4 seconds close the game
                 self.show_dialogue = False #remove dialogue and remove NPC surfs
             # create a new bullet every second
-            if self.last_bullet_created + 1000 <= pygame.time.get_ticks():
+            if self.last_bullet_created + 500 <= pygame.time.get_ticks():
                 self.last_bullet_created = pygame.time.get_ticks()
                 self.bullets.add(boss_bullet.BossBullet(
                     self.screen,
                     self.rect.centerx,
                     self.rect.centery,
-                    1,
-                    0,
+                    2,
+                    random.randint(-2,2),
                     self.blocks)
                 )
+
             self.rect.move_ip(0, self.speed)
             if self.speed > 0:
                 for block in self.blocks:
@@ -102,6 +118,32 @@ class NPC(pygame.sprite.Sprite):
             self.screen.blit(self.dialogue1_text,self.dialogue1_textRect)
             self.screen.blit(self.dialogue2_text,self.dialogue2_textRect)
             self.screen.blit(self.surf,self.rect)
+        if self.active_NPC:
+            for i in range(self.maxHealth):
+                if i in self.hurtTimes:
+                    if self.hurtTimes[i] + 1000 < pygame.time.get_ticks():
+                        del self.hurtTimes[i]
+                    else:
+                        self.screen.blit(
+                            self.hurtBlock,
+                            [
+                                HEALTH_BLOCK_X_OFFSET+HEALTH_BLOCK_WIDTH*i,
+                                HEALTH_BLOCK_Y_OFFSET
+                            ]
+                        )
+                elif i <= self.health:
+                    self.screen.blit(
+                        self.healthBlock,
+                        [
+                            HEALTH_BLOCK_X_OFFSET+HEALTH_BLOCK_WIDTH*i,
+                            HEALTH_BLOCK_Y_OFFSET
+                        ]
+                    )
+
+    def hurt(self):
+        if self.health > 0:
+            self.hurtTimes[self.health] = pygame.time.get_ticks()
+            self.health -= 1
 
 
 
