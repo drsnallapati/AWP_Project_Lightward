@@ -14,12 +14,6 @@ class LevelOne(Level):
         super().__init__(screen)
         # sets the circle that'll be around the character
         self.radius = LEVEL_1_LIGHT_RADIUS
-        self.cover_surf = pygame.Surface((self.radius * 2, self.radius * 2))
-        self.cover_surf.fill(0)
-        self.cover_surf.set_colorkey((255, 255, 255))
-        pygame.draw.circle(
-            self.cover_surf, (255, 255, 255), (self.radius, self.radius), self.radius
-        )
         #-- Exit Block
         self.exit_block = pygame.image.load("exit.png")
         self.exit_block_rect = self.exit_block.get_rect(topleft=[X_BORDER, Y_BORDER])
@@ -28,7 +22,6 @@ class LevelOne(Level):
         surf = pygame.surface.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
         clip_center = self.player.rect.center
         # clear screen and set clipping region
-        # surf.fill(0)
         clip_rect = pygame.Rect(
             clip_center[0] - self.radius,
             clip_center[1] - self.radius,
@@ -36,6 +29,13 @@ class LevelOne(Level):
             self.radius * 2,
         )
         surf.set_clip(clip_rect)
+
+        self.cover_surf = pygame.Surface((self.radius * 2, self.radius * 2))
+        self.cover_surf.fill(0)
+        self.cover_surf.set_colorkey((255, 255, 255))
+        pygame.draw.circle(
+            self.cover_surf, (255, 255, 255), (self.radius, self.radius), self.radius
+        )
 
         super(LevelOne, self).draw(surf)
 
@@ -58,6 +58,7 @@ class LevelOne(Level):
         super().update()
         if self.player.rect.colliderect(self.exit_block_rect):
             self.next_scene = LevelTwo(self.screen)
+        self.radius = LEVEL_1_LIGHT_RADIUS+(SCREEN_HEIGHT-self.player.rect.bottom)/4
 
     def draw_after_clipping(self):
         super().draw_after_clipping()

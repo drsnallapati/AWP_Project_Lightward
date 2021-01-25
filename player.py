@@ -14,6 +14,7 @@ from pygame.locals import (
     K_s
 )
 from constants import *
+import boss_bullet
 
 
 class Player(pygame.sprite.Sprite):
@@ -71,6 +72,10 @@ class Player(pygame.sprite.Sprite):
         self.blocks = blocks
         self.last_gravity_check = pygame.time.get_ticks()
 
+        self.player_bullets = pygame.sprite.Group()
+        self.last_player_bullet_created = pygame.time.get_ticks()
+
+
     def check_collide(self):
         player_rect = self.rect.copy()
         player_rect.left += 4
@@ -100,7 +105,18 @@ class Player(pygame.sprite.Sprite):
                 self.rect.left = block.rect.right-4
         # shooting
         if pressed_keys[K_s]:
-            self.health -= 1
+            if self.last_player_bullet_created + 500 <= pygame.time.get_ticks():
+                self.last_player_bullet_created = pygame.time.get_ticks()
+                self.player_bullets.add(boss_bullet.BossBullet(
+                    self.screen,
+                    self.rect.centerx,
+                    self.rect.centery,
+                    2,
+                    0,
+                    self.blocks,
+                    boss_bullet.PLAYER))
+        for bullet in self.player_bullets:
+            bullet.update()
         # jumping
         if pressed_keys[K_SPACE] or pressed_keys[K_w] or pressed_keys[K_UP]:
             if self.v_velocity == 0 and self.is_jumping == False:
@@ -135,6 +151,8 @@ class Player(pygame.sprite.Sprite):
 
     def draw(self, surf):
         surf.blit(self.surf, self.rect)
+        for bullet in self.player_bullets:
+            bullet.draw(surf)
 
     def draw_health(self):
         # check which health symbol needs to be drawn and pull that screen

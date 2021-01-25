@@ -16,7 +16,7 @@ from constants import *
 import boss_bullet
 
 class NPC(pygame.sprite.Sprite):
-    def __init__(self, x, y, screen, player, dialog_first, dialog_second,current_scene):
+    def __init__(self, x, y, screen, player, dialog_first, dialog_second, current_scene, blocks):
         super(NPC, self).__init__()
         self.screen = screen
         self.player = player
@@ -57,31 +57,42 @@ class NPC(pygame.sprite.Sprite):
 
         self.bullets = pygame.sprite.Group()
         self.last_bullet_created = pygame.time.get_ticks()
+        self.health = 10
+        self.speed = 1
+        self.blocks = blocks
 
 
     def update(self):
-
         if self.dialogue_activation_rect.colliderect(self.player.rect) and self.active_NPC == False:
             self.active_NPC = True
             self.show_dialogue = True
             self.start_ticks = pygame.time.get_ticks() #starter tick
-        if self.active_NPC == True:
+        if self.active_NPC:
             seconds = (pygame.time.get_ticks()-self.start_ticks)/1000 #calculate how many seconds
-            if seconds > 4: #if more than 4 seconds close the game
+            if seconds > 10: #if more than 4 seconds close the game
                 self.show_dialogue = False #remove dialogue and remove NPC surfs
-                self.kill()
-
-        # create a new bullet every .5 seconds
-        if self.last_bullet_created + 500 <= pygame.time.get_ticks():
-            self.last_bullet_created = pygame.time.get_ticks()
-            self.bullets.add(boss_bullet.BossBullet(
-                self.screen,
-                self.rect.centerx,
-                self.rect.centery,
-                1,
-                1)
-            )
-
+            # create a new bullet every .5 seconds
+            if self.last_bullet_created + 500 <= pygame.time.get_ticks():
+                self.last_bullet_created = pygame.time.get_ticks()
+                self.bullets.add(boss_bullet.BossBullet(
+                    self.screen,
+                    self.rect.centerx,
+                    self.rect.centery,
+                    1,
+                    0,
+                    self.blocks)
+                )
+            self.rect.move_ip(0, self.speed)
+            if self.speed > 0:
+                for block in self.blocks:
+                    if self.rect.colliderect(block.rect):
+                        self.rect.bottom = block.rect.top
+                        self.speed = -self.speed
+            else:
+                for block in self.blocks:
+                    if self.rect.colliderect(block.rect):
+                        self.rect.top = block.rect.bottom
+                        self.speed = -self.speed
         for bullet in self.bullets:
             bullet.update()
 
@@ -90,8 +101,6 @@ class NPC(pygame.sprite.Sprite):
             self.screen.blit(self.dialogue1_text,self.dialogue1_textRect)
             self.screen.blit(self.dialogue2_text,self.dialogue2_textRect)
             self.screen.blit(self.surf,self.rect)
-        for bullet in self.bullets:
-            bullet.draw()
 
 
 

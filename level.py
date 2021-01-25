@@ -31,25 +31,8 @@ class Level:
         dialog_string_1, dialog_string_2 = self.get_dialog_strings()
         for ycoord, row in enumerate(self.get_level_design().splitlines()):
             for xcoord, cell in enumerate(row):
-                # if cell == "X":
-                #     block = Block(
-                #         X_BORDER + xcoord * 32,
-                #         Y_BORDER + ycoord * 32,
-                #     )
-                #     self.blocks.add(block)
-                #     self.impassables.add(block)
-                # if cell == "N":
-                #     npc = NPC(
-                #         X_BORDER + xcoord * 32,
-                #         Y_BORDER + ycoord * 32,
-                #         self.screen,
-                #         self.player
-                #     )
-                #     self.npcs.add(npc)
-                #     self.impassables.add(npc)
                 if cell == "P":
                     self.player.rect.topleft = [X_BORDER + xcoord * 32, Y_BORDER + ycoord * 32]
-
         # Getting / Importing the map
         tmxdata = load_pygame(self.get_level_tmx())
         for layer in tmxdata.visible_layers:
@@ -72,7 +55,8 @@ class Level:
                         self.player,
                         dialog_string_1,
                         dialog_string_2,
-                        self.get_current_level()
+                        self.get_current_level(),
+                        self.blocks
                     )
                     self.npcs.add(npc)
                     self.impassables.add(npc)
@@ -92,6 +76,9 @@ class Level:
             surf.blit(entity.surf, entity.rect)
         for entity in self.npcs:
             surf.blit(entity.surf, entity.rect)
+            for bullet in entity.bullets:
+                bullet.draw()
+
 
     def handle_input(self, pressed_keys):
         pressed_keys = pygame.key.get_pressed()
@@ -107,6 +94,7 @@ class Level:
                 bullet_collided.kill()
                 if self.player.health < 1:
                     self.next_scene = game_over.GameOver(self.screen, "We all stumble at some point. Want to try again or take a break?")
+
 
     def get_level_design(self):
         pass
