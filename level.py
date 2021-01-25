@@ -25,7 +25,7 @@ class Level:
         self.blocks = pygame.sprite.Group()
         self.npcs = pygame.sprite.Group()
         self.impassables = pygame.sprite.Group()
-        self.player = Player(self.screen, self.impassables)
+        self.player = Player(self.screen, self.impassables, self.blocks)
         self.background, self.background_rect = self.get_background()
         # -- Looping through the level design file and creating the map
         dialog_string_1, dialog_string_2 = self.get_dialog_strings()
@@ -77,7 +77,7 @@ class Level:
         for entity in self.npcs:
             surf.blit(entity.surf, entity.rect)
             for bullet in entity.bullets:
-                bullet.draw()
+                bullet.draw(surf)
 
 
     def handle_input(self, pressed_keys):
@@ -94,6 +94,12 @@ class Level:
                 bullet_collided.kill()
                 if self.player.health < 1:
                     self.next_scene = game_over.GameOver(self.screen, "We all stumble at some point. Want to try again or take a break?")
+            player_bullet_collided = pygame.sprite.spritecollideany(npc, self.player.player_bullets)
+            if player_bullet_collided:
+                npc.health -= 1
+                player_bullet_collided.kill()
+                if npc.health < 1:
+                    self.next_scene = game_over.GameOver(self.screen)
 
 
     def get_level_design(self):

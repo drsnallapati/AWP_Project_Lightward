@@ -27,13 +27,15 @@ class NPC(pygame.sprite.Sprite):
         if current_scene == 1:
             self.surf = pygame.surface.Surface((46, 64))
             self.surf.blit(self.npcs, (0, 0), (0, 0, 46, 64))
+            self.health = 10
         if current_scene == 2:
             self.surf = pygame.surface.Surface((72,64))
             self.surf.blit(self.npcs, (0, 0), (51, 0, 72, 64))
+            self.health = 15
         if current_scene == 3:
             self.surf = pygame.surface.Surface((51,64))
             self.surf.blit(self.npcs, (0, 0), (134, 0, 51, 64))
-
+            self.health = 20
         self.surf.set_colorkey((0, 0, 0), RLEACCEL)
         self.rect = self.surf.get_rect(topleft=[x, y])
 
@@ -57,7 +59,6 @@ class NPC(pygame.sprite.Sprite):
 
         self.bullets = pygame.sprite.Group()
         self.last_bullet_created = pygame.time.get_ticks()
-        self.health = 10
         self.speed = 1
         self.blocks = blocks
 
@@ -71,8 +72,8 @@ class NPC(pygame.sprite.Sprite):
             seconds = (pygame.time.get_ticks()-self.start_ticks)/1000 #calculate how many seconds
             if seconds > 10: #if more than 4 seconds close the game
                 self.show_dialogue = False #remove dialogue and remove NPC surfs
-            # create a new bullet every .5 seconds
-            if self.last_bullet_created + 500 <= pygame.time.get_ticks():
+            # create a new bullet every second
+            if self.last_bullet_created + 1000 <= pygame.time.get_ticks():
                 self.last_bullet_created = pygame.time.get_ticks()
                 self.bullets.add(boss_bullet.BossBullet(
                     self.screen,
