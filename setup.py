@@ -21,7 +21,8 @@ includefiles=[
     'spike.png',
     'sprite_sheet.png',
     'Sprute.png',
-    'threeformsPJ2x.png'
+    'threeformsPJ2x.png',
+    'Garamond.ttf'
 ]
 includes=[]
 excludes=[]

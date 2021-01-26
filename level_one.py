@@ -20,7 +20,7 @@ class LevelOne(level.Level):
         # retry
         self.retry = retry
 
-        self.font = pygame.font.SysFont("Garamond", 32)
+        self.font = pygame.font.Font("Garamond.ttf", 32)
         self.walk_text = self.font.render("Press arrow keys to move", True, [255, 255, 255])
         self.walk_textRect = self.walk_text.get_rect(
             center=[self.screen_width / 2, 16]

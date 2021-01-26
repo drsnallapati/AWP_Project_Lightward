@@ -11,7 +11,6 @@ from pygame.locals import (
     K_RETURN,
 )
 from constants import *
-from profilehooks import profile
 
 def main():
     # sets the clock so that you can choose how fast you want to update the game. Also sets a consistent rate

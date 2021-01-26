@@ -16,7 +16,7 @@ class IntroScene:
         )
         self.intro_pic = pygame.image.load("intro_scene.png")
         self.intro_pic_rect = self.intro_pic.get_rect(center = [self.screen_width / 2, (self.screen_height) / 2])
-        self.font = pygame.font.SysFont("Garamond", 32)
+        self.font = pygame.font.Font("Garamond.ttf", 32)
         self.welcome_text = self.font.render("Lightward", True, [255, 255, 255])
         self.welcome_textRect = self.welcome_text.get_rect(
             center=[self.screen_width / 2, (self.screen_height - 250) / 2]
