@@ -4,13 +4,12 @@ from pytmx import load_pygame
 from player import Player
 from constants import *
 from block import Block
-import game_over
 
 from npc import NPC
 
 
 class Level:
-    def __init__(self, screen):
+    def __init__(self, screen, retry):
         # -- Defining Screen
         self.screen = screen
         self.screen_width = screen.get_width()
@@ -21,6 +20,10 @@ class Level:
         self.game_surf = pygame.Surface(
             (self.screen_width - X_BORDER * 2, self.screen_height - Y_BORDER)
         )
+
+        # -- Define retry
+        self.retry = retry
+
         # -- Defining blocks, NPCs and impassable sprite groups
         self.blocks = pygame.sprite.Group()
         self.npcs = pygame.sprite.Group()
@@ -62,7 +65,11 @@ class Level:
                     self.npcs.add(npc)
                     self.impassables.add(npc)
                 if layer.name == "Player":
-                    self.player.rect.topleft = [X_BORDER + item.x, Y_BORDER + item.y]
+                    if not self.retry:
+                        self.player.rect.topleft = [X_BORDER + item.x, Y_BORDER + item.y]
+                if layer.name == "PlayerRetry":
+                    if self.retry:
+                        self.player.rect.topleft = [X_BORDER + item.x, Y_BORDER + item.y]
                 if layer.name == "BossBlock":
                     self.boss_block_rect = pygame.Rect(
                         X_BORDER + item.x,
@@ -74,7 +81,6 @@ class Level:
     def draw(self, surf=None):
         if not surf:
             surf = self.screen
-        surf.fill(pygame.Color("black"))
         surf.blit(self.game_surf, (X_BORDER, Y_BORDER))
 
         surf.blit(self.background,self.background_rect)
@@ -102,7 +108,9 @@ class Level:
                 self.player.health -= 1
                 bullet_collided.kill()
                 if self.player.health < 1:
-                    self.next_scene = game_over.GameOver(self.screen, "We all stumble at some point. Want to try again or take a break?")
+                    import game_over
+                    self.next_scene = game_over.GameOver(self.screen, "We all stumble at some point. Want to try again or take a break?",self.get_current_level())
+
             player_bullet_collided = pygame.sprite.spritecollideany(npc, self.player.player_bullets)
             if player_bullet_collided:
                 npc.hurt()

@@ -11,7 +11,7 @@ from pygame.locals import (
     K_a,
     K_d,
     K_UP,
-    K_s
+    K_z
 )
 from constants import *
 import boss_bullet
@@ -44,7 +44,7 @@ class Player(pygame.sprite.Sprite):
         ]
 
         self.health_rect = self.full_health_surf.get_rect(
-                center=((SCREEN_WIDTH/2), Y_BORDER/2)
+                center=(SCREEN_WIDTH-52, Y_BORDER/2)
             )
 
         self.full_health_surf.blit(self.health_sheet, (0, 0), (0, 0, health_size, health_size))
@@ -80,12 +80,16 @@ class Player(pygame.sprite.Sprite):
         self.is_jumping = False
         self.impassables = impassables
         self.blocks = blocks
-        self.last_gravity_check = pygame.time.get_ticks()
+        self.last_gravity_check = 0
 
         self.player_bullets = pygame.sprite.Group()
         self.last_player_bullet_created = pygame.time.get_ticks()
         self.last_walk_frame = pygame.time.get_ticks()
         self.facing = FACING_RIGHT
+        self.frame_counter = 0
+        self.walked_once = False
+        self.shot_once = False
+        self.jumped_once = False
 
 
     def check_collide(self):
@@ -101,8 +105,10 @@ class Player(pygame.sprite.Sprite):
         return returned_impassables
 
     def update(self, pressed_keys):
+        self.frame_counter += 1
         # moving right
         if pressed_keys[K_RIGHT] or pressed_keys[K_d]:
+            self.walked_once = True
             self.facing = FACING_RIGHT
             if not self.is_jumping:
                 if self.surf not in [self.player_frames["stand_right"], self.player_frames["walk_right"]]:
@@ -144,7 +150,8 @@ class Player(pygame.sprite.Sprite):
             for block in block_hit_list:
                 self.rect.left = block.rect.right-4
         # shooting
-        if pressed_keys[K_s]:
+        if pressed_keys[K_z]:
+            self.shot_once = True
             # check which direction you're facing and shoot the bullet that direction
             if self.last_player_bullet_created + 500 <= pygame.time.get_ticks():
                 self.last_player_bullet_created = pygame.time.get_ticks()
@@ -153,7 +160,7 @@ class Player(pygame.sprite.Sprite):
                         self.screen,
                         self.rect.topright[0]-8,
                         self.rect.topright[1]+10,
-                        2,
+                        4,
                         0,
                         self.blocks,
                         boss_bullet.PLAYER
@@ -163,7 +170,7 @@ class Player(pygame.sprite.Sprite):
                         self.screen,
                         self.rect.topleft[0]-8,
                         self.rect.topleft[1]+10,
-                        -2,
+                        -4,
                         0,
                         self.blocks,
                         boss_bullet.PLAYER
@@ -173,6 +180,7 @@ class Player(pygame.sprite.Sprite):
             bullet.update()
         # jumping
         if pressed_keys[K_SPACE] or pressed_keys[K_w] or pressed_keys[K_UP]:
+            self.jumped_once = True
             if self.v_velocity == 0 and self.is_jumping == False:
                 self.v_velocity = JUMP_VELOCITY
                 self.is_jumping = True
@@ -188,8 +196,8 @@ class Player(pygame.sprite.Sprite):
                 self.rect.top = block.rect.bottom
                 self.v_velocity = 0
         # keeps the character from leaving the screen
-        if self.last_gravity_check + 48 < pygame.time.get_ticks():
-            self.last_gravity_check = pygame.time.get_ticks()
+        if self.last_gravity_check + 2 < self.frame_counter:
+            self.last_gravity_check = self.frame_counter
             self.v_velocity += GRAVITY
         block_hit_list = self.check_collide()
         for block in block_hit_list:

@@ -1,6 +1,8 @@
 import pygame
 from pygame.locals import KEYDOWN, K_RETURN, MOUSEBUTTONUP
-from level_one import LevelOne
+import level_one
+import level_two
+import level_three
 
 
 class IntroScene:
@@ -59,10 +61,10 @@ class IntroScene:
         for event in event_list:
             if event.type == KEYDOWN:
                 if event.key == K_RETURN:
-                    self.next_scene = LevelOne(self.screen)
+                    self.next_scene = level_one.LevelOne(self.screen)
             if event.type == MOUSEBUTTONUP:
                 if self.hovered:
-                    self.next_scene = LevelOne(self.screen)
+                    self.next_scene = level_one.LevelOne(self.screen)
 
     def update(self):
         pass

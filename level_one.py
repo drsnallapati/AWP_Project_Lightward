@@ -2,24 +2,43 @@ import pygame
 from player import Player
 from constants import *
 from level_1_design import level_1_design
-from level import Level
-from level_two import LevelTwo
+import level
+import level_two
 
-class LevelOne(Level):
-    def __init__(self, screen):
+class LevelOne(level.Level):
+    def __init__(self, screen, retry=False):
         self.level_design = level_1_design
         # -- Background
-        self.level_1_background = pygame.image.load("level_1_backround.png")
+        self.level_1_background = pygame.image.load("level_1_backround.png").convert()
         self.level_1_background_rect = self.level_1_background.get_rect(topleft=[X_BORDER,Y_BORDER])
-        super().__init__(screen)
+        super().__init__(screen, retry)
         # sets the circle that'll be around the character
         self.radius = LEVEL_1_LIGHT_RADIUS
         #-- Exit Block
         self.exit_block = pygame.image.load("exit.png")
         self.exit_block_rect = self.exit_block.get_rect(topleft=[X_BORDER, Y_BORDER])
+        # retry
+        self.retry = retry
+
+        self.font = pygame.font.SysFont("Garamond", 32)
+        self.walk_text = self.font.render("Press arrow keys to move", True, [255, 255, 255])
+        self.walk_textRect = self.walk_text.get_rect(
+            center=[self.screen_width / 2, 16]
+        )
+        self.jump_text = self.font.render("Press up to jump", True, [255, 255, 255])
+        self.jump_textRect = self.jump_text.get_rect(
+            center=[self.screen_width / 2, 48]
+        )
+        self.shoot_text = self.font.render("Press z to shoot", True, [255, 255, 255])
+        self.shoot_textRect = self.shoot_text.get_rect(
+            center=[self.screen_width / 2, 80]
+        )
+
+
 
     def draw(self):
-        surf = pygame.surface.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
+        self.surf = pygame.surface.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
+
         clip_center = self.player.rect.center
         # clear screen and set clipping region
         clip_rect = pygame.Rect(
@@ -28,7 +47,7 @@ class LevelOne(Level):
             self.radius * 2,
             self.radius * 2,
         )
-        surf.set_clip(clip_rect)
+        self.surf.set_clip(clip_rect)
 
         self.cover_surf = pygame.Surface((self.radius * 2, self.radius * 2))
         self.cover_surf.fill(0)
@@ -37,14 +56,14 @@ class LevelOne(Level):
             self.cover_surf, (255, 255, 255), (self.radius, self.radius), self.radius
         )
 
-        super(LevelOne, self).draw(surf)
+        super(LevelOne, self).draw(self.surf)
 
 
         # draw transparent circle and update display
 
-        surf.blit(self.cover_surf, clip_rect)
+        self.surf.blit(self.cover_surf, clip_rect)
 
-        self.screen.blit(surf, (0,0))
+        self.screen.blit(self.surf, (0,0))
 
         self.draw_after_clipping()
 
@@ -57,7 +76,7 @@ class LevelOne(Level):
     def update(self):
         super().update()
         if self.player.rect.colliderect(self.exit_block_rect):
-            self.next_scene = LevelTwo(self.screen)
+            self.next_scene = level_two.LevelTwo(self.screen)
         self.radius = LEVEL_1_LIGHT_RADIUS+(SCREEN_HEIGHT-self.player.rect.bottom)/4
 
     def draw_after_clipping(self):
@@ -65,6 +84,12 @@ class LevelOne(Level):
         for entity in self.npcs:
             entity.draw_after_clipping()
         self.screen.blit(self.exit_block, self.exit_block_rect)
+        if not self.player.shot_once:
+            self.screen.blit(self.shoot_text, self.shoot_textRect)
+        if not self.player.walked_once:
+            self.screen.blit(self.walk_text, self.walk_textRect)
+        if not self.player.jumped_once:
+            self.screen.blit(self.jump_text, self.jump_textRect)
 
     def get_level_tmx(self):
         return "level1.tmx"

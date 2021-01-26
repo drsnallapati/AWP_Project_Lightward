@@ -28,6 +28,8 @@ class NPC(pygame.sprite.Sprite):
         self.player = player
         self.screen_width = screen.get_width()
         self.screen_height = screen.get_height()
+        self.current_scene = current_scene
+
         self.npcs = pygame.image.load("Bigger_bosses.png").convert_alpha()
         self.surf = None
         if current_scene == 1:
@@ -63,12 +65,16 @@ class NPC(pygame.sprite.Sprite):
         self.show_dialogue = False
         self.dialogue_activation_rect = self.rect.copy()
         #making the dialogue show up a little bit before you get to the enemy
-        self.dialogue_activation_rect.width *= 2
+        self.dialogue_activation_rect.width *= 5
         self.dialogue_activation_rect.left -= self.surf.get_width()/2
 
         self.bullets = pygame.sprite.Group()
         self.last_bullet_created = pygame.time.get_ticks()
         self.speed = 1
+        if self.current_scene == 2:
+            self.speed = 2
+        if self.current_scene == 3:
+            self.speed = 3
         self.blocks = blocks
 
         self.healthBlock = pygame.surface.Surface([HEALTH_BLOCK_WIDTH, HEALTH_BLOCK_HEIGHT])
@@ -76,6 +82,11 @@ class NPC(pygame.sprite.Sprite):
         self.hurtBlock = pygame.surface.Surface([HEALTH_BLOCK_WIDTH, HEALTH_BLOCK_HEIGHT])
         self.hurtBlock.fill(pygame.Color("Yellow"))
         self.hurtTimes = {}
+        self.boss_bullet_delay = 500
+        if self.current_scene == 2:
+            self.boss_bullet_delay = 400
+        if self.current_scene == 3:
+            self.boss_bullet_delay = 200
 
 
     def update(self):
@@ -85,10 +96,10 @@ class NPC(pygame.sprite.Sprite):
             self.start_ticks = pygame.time.get_ticks() #starter tick
         if self.active_NPC:
             seconds = (pygame.time.get_ticks()-self.start_ticks)/1000 #calculate how many seconds
-            if seconds > 10: #if more than 4 seconds close the game
+            if seconds > 10: #if more than 10 seconds close the game
                 self.show_dialogue = False #remove dialogue and remove NPC surfs
             # create a new bullet every second
-            if self.last_bullet_created + 500 <= pygame.time.get_ticks():
+            if self.last_bullet_created + self.boss_bullet_delay <= pygame.time.get_ticks():
                 self.last_bullet_created = pygame.time.get_ticks()
                 self.bullets.add(boss_bullet.BossBullet(
                     self.screen,

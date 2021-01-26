@@ -2,27 +2,28 @@ import pygame
 from player import Player
 from constants import *
 from level_3_design import level_3_design
-from level import Level
-from game_over import GameOver
+import level
+import game_over
 
-class LevelThree(Level):
-    def __init__(self, screen):
+class LevelThree(level.Level):
+    def __init__(self, screen,retry=False):
         self.level_design = level_3_design
 
         # -- Background
-        self.level_3_background = pygame.image.load("level_3_backround.png")
+        self.level_3_background = pygame.image.load("level_3_backround.png").convert()
         self.level_3_background_rect = self.level_3_background.get_rect(topleft=[X_BORDER,Y_BORDER])
 
-        super(LevelThree, self).__init__(screen)
+        super(LevelThree, self).__init__(screen, retry)
         # sets the circle that'll be around the character
         #-- Exit Block
         self.exit_block = pygame.image.load("exit.png")
         self.exit_block_rect = self.exit_block.get_rect(topleft=[X_BORDER, Y_BORDER])
+        self.surf = pygame.surface.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
 
     def draw(self):
-        surf = pygame.surface.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
-        super().draw()
+        super().draw(self.surf)
         #draw the exit image
+        self.screen.blit(self.surf, (0,0))
         self.screen.blit(self.exit_block, self.exit_block_rect)
         self.draw_after_clipping()
 
@@ -36,7 +37,7 @@ class LevelThree(Level):
     def update(self):
         super().update()
         if self.player.rect.colliderect(self.exit_block_rect):
-            self.next_scene = GameOver(self.screen)
+            self.next_scene = game_over.GameOver(self.screen)
 
     def draw_after_clipping(self):
         super().draw_after_clipping()
